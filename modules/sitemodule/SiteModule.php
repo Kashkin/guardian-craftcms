@@ -13,8 +13,12 @@ use modules\sitemodule\services\NewsService;
 
 class SiteModule extends Module
 {
+    // Properties
+    // =========================================================================
     public array $providers = ['guardian'];
 
+    // Public Functions
+    // =========================================================================
     public function init(): void
     {
         Craft::setAlias('@modules/sitemodule', __DIR__);
@@ -28,18 +32,7 @@ class SiteModule extends Module
 
         parent::init();
 
-        // Register a custom log target, keeping the format as simple as possible.
-        Craft::getLogger()->dispatcher->targets[] = new MonologTarget([
-            'name' => 'site-module',
-            'categories' => ['site-module'],
-            'level' => LogLevel::INFO,
-            'logContext' => false,
-            'allowLineBreaks' => false,
-            'formatter' => new LineFormatter(
-                format: "%datetime% %message%\n",
-                dateFormat: 'Y-m-d H:i:s',
-            ),
-        ]);
+        $this->_registerLogTarget();
 
         // Register components
         $this->setComponents([
@@ -47,28 +40,32 @@ class SiteModule extends Module
         ]);
 
         // Defer most setup tasks until Craft is fully initialized
-        Craft::$app->onInit(function() {
+        Craft::$app->onInit(function () {
             $this->attachEventHandlers();
             // ...
         });
     }
 
+    /**
+     * Logs an informational message to our custom log target.
+     */
     public static function log($message, $attributes = []): void
     {
         if ($attributes) {
             $message = Craft::t('site-module', $message, $attributes);
         }
-
-        Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'site-module');
+        Craft::info($message, 'site-module');
     }
-
+    /**
+     * Logs an error message to our custom log target.
+     */
     public static function error($message, $attributes = []): void
     {
         if ($attributes) {
             $message = Craft::t('site-module', $message, $attributes);
         }
 
-        Craft::getLogger()->log($message, Logger::LEVEL_ERROR, 'site-module');
+        Craft::error($message, 'site-module');
     }
 
     public function getNews(): NewsService
@@ -79,6 +76,27 @@ class SiteModule extends Module
     public function getSettings(): Settings
     {
         return new Settings();
+    }
+
+    // Private Functions
+    // =========================================================================
+
+    /**
+     * Registers a custom log target, keeping the format as simple as possible.
+     */
+    private function _registerLogTarget(): void
+    {
+        Craft::getLogger()->dispatcher->targets[] = new MonologTarget([
+            'name' => 'site-module',
+            'categories' => ['site-module'],
+            'level' => LogLevel::INFO,
+            'logContext' => false,
+            'allowLineBreaks' => true,
+            'formatter' => new LineFormatter(
+                format: "%datetime% %message%\n",
+                dateFormat: 'Y-m-d H:i:s',
+            ),
+        ]);
     }
 
     private function attachEventHandlers(): void

@@ -59,9 +59,9 @@ class Article extends Model
     public string $url;
 
     /**
-     * @var string Name (or names) of the author(s)
+     * @var string Name (or names) of the author(s); not always present
      */
-    public string $author;
+    public ?string $author;
 
     /**
      * @var string The thumbnail published with the article

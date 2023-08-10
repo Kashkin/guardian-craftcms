@@ -24,12 +24,12 @@ class NewsController extends Controller
         // If passed through, limit to selection, otherwise use all
         $providers = $request->getQueryParam('providers') ?? SiteModule::getInstance()->providers;
 
-        $options = $request->getQueryParams();
+        $params = $request->getQueryParams();
 
         $data = [];
 
         foreach ($providers as $provider) {
-            $data[] = SiteModule::getInstance()->getNews()->fetchData($provider, $options);
+            $data[] = SiteModule::getInstance()->getNews()->fetchData($provider, $params);
         }
 
         return $this->asJson(...$data);

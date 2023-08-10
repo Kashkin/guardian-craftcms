@@ -20,7 +20,8 @@ use modules\sitemodule\models\Article;
 class NewsService extends Component
 {
 
-    public function fetchData(string $provider = '', array $params = []): mixed {
+    public function fetchData(string $provider = '', array $params = []): mixed
+    {
 
         if (!ArrayHelper::isIn($provider, SiteModule::getInstance()->providers)) {
             $message = Craft::t('site-module', 'This provider isn\'t supported yet!');
@@ -37,7 +38,7 @@ class NewsService extends Component
             // Generate a cache key based on all the provided data and duration (in case we change it)
             $cacheKey = md5(Json::encode([$provider, $params, $seconds]));
 
-            $cacheData = Craft::$app->getCache()->getOrSet($cacheKey, function() use ($provider, $params) {
+            $cacheData = Craft::$app->getCache()->getOrSet($cacheKey, function () use ($provider, $params) {
                 // Only set cache data if we have a result
                 if ($cacheData = $this->fetchRawData($provider, $params)) {
                     return $cacheData;
@@ -87,19 +88,27 @@ class NewsService extends Component
             $baseQuery = [
                 'api-key' => $key,
                 'format' => 'json',
+                'page-size' => 10,
                 'show-fields' => 'thumbnail,wordcount,byline,trailText,liveBloggingNow,isLive,lastModified',
             ];
 
             // Map project params to API params
-            $options = ArrayHelper::map(
-                $params,
-                ['q', 'orderBy'],
-                ['q', 'order-by']
-            );
+            $options = [
+                'q' => $params['q'] ?? '',
+                'order-by' => $params['orderBy'] ?? '',
+                'page' => $params['page'] ?? '',
+            ];
 
             $filteredOptions = ArrayHelper::filterEmptyStringsFromArray($options);
 
             $query = ArrayHelper::merge($baseQuery, $filteredOptions);
+
+            // dd([
+            //     'params' => $params,
+            //     'options' => $options,
+            //     'filteredOptions' => $filteredOptions,
+            //     'query' => $query,
+            // ]);
 
             // Make request
             $response = $guzzleClient->get('https://content.guardianapis.com/search', [
@@ -108,6 +117,7 @@ class NewsService extends Component
 
             if ($response && $response->getStatusCode() === 200) {
                 $result = Json::decode((string)$response->getBody(), true);
+                // SiteModule::log($result);
                 $rawArticles = $result['response']['results'];
 
                 $articles = [];
@@ -122,17 +132,28 @@ class NewsService extends Component
                             'headline' => $article['webTitle'],
                             'alternativeHeadline' => $article['fields']['trailText'],
                             'url' => $article['webUrl'],
-                            'author' => $article['fields']['byline'],
+                            'author' => $article['fields']['byline'] ?? '',
                             'thumbnailUrl' => $article['fields']['thumbnail'],
                             'provider' => 'guardian',
                         ]);
                         $articles[] = $articleModel;
                     } catch (Throwable $e) {
-                        SiteModule::error($e->getMessage());
+                        $message = Craft::t('site-module', 'Error: “{message}” {file}:{line}', [
+                            'message' => $e->getMessage(),
+                            'file' => $e->getFile(),
+                            'line' => $e->getLine(),
+                        ]);
+
+                        SiteModule::error($message);
                     }
                 }
 
-                return $articles;
+                return [
+                    'total' => $result['response']['total'],
+                    'currentPage' => $result['response']['currentPage'],
+                    'pages' => $result['response']['pages'],
+                    'articles' => $articles,
+                ];
             }
         } catch (Throwable $e) {
             $messageText = $e->getMessage();

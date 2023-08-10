@@ -14,7 +14,7 @@ class Settings extends Model
     // Properties
     // =========================================================================
 
-    public bool $enableCache = false;
+    public bool $enableCache = true;
     public mixed $cacheDuration = 'PT1H';
 
 }

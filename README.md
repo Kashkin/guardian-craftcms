@@ -1,39 +1,31 @@
-# News
-- News Controller
-- Article Model
-- News Service
-	- Guardian Function
+# News Project
 
-## Using your Craft CMS project in a browser via Github Codespaces
+This codebase is a demonstration of my PHP capabilities, specifically within the Craft CMS / Yii frameworks.
 
-1. Go to your repo in Github
-2. Click on **Use this template** and select **Open in a codespace** if your repository is a Template Repository. If it is a regular repository, click on **Code**, then click on the **Codespaces** tab, and click on the **Creat codespace on ...** button
-3. In the resulting Terminal window, type `make dev` to start the project up
-4. Wait until you see output like this, and then access the site via the credentials that are output on the console:
+I have focused on the back-end component of this project. My progress so far:
+✅ Create API proxy, specifically for The Guardian, but scaffolded for multiple providers
+✅ Normalise returned content into a consistent model
+✅ Apply data caching to improve performance of repeat requests
 
-```
-queue_1    | ### Your Craft site is ready!
-queue_1    | Frontend URL: https://khalwat-opulent-xylophone-q59g6p5vqj3rvr-8050.preview.app.github.dev/
-queue_1    | CP URL: https://khalwat-opulent-xylophone-q59g6p5vqj3rvr-8050.preview.app.github.dev/admin
-queue_1    | CP User: admin
-queue_1    | CP Password: project
-```
+Next steps / considerations:
+⬜️ Under what circumstances (beyond expiry) should the cache be cleared (live blogs?)
+⬜️ Pagination? How does this work with multiple end points?
+⬜️ Storage of pinned articles: use session storage for guests, convert to user field?
+⬜️ Allow front-end registration / login / forgot password.
+⬜️ Do we want to store article metadata in the CMS? If so, we could use the [Wishlist plugin](https://verbb.io/craft-plugins/wishlist/features).
+⬜️ Are articles ever removed from an API? How does this affect pinned articles?
+⬜️ Do we ever need to return the full article and display it?
+⬜️ There are [so many news APIs](https://en.wikipedia.org/wiki/List_of_news_media_APIs)!
 
-This lets anyone use the project without having to do _any_ local setup.
+This project provided the opportunity to dig into:
+🔌 Modules! They're [like plugins, but a bit different](https://verbb.io/blog/everything-you-need-to-know-about-modules)
+🪵 Logging! Now I know how to register my own log file, which is tidy.
+🌆 Models! Craft intends you to create models and records in tandem, but they're useful on their own.
+🧳 Caching! I'd used this before, but it's good to practice.
+🆎 Types! I'm learning TypeScript, and I have a better understanding of how to type my PHP.
 
-You can use the Codespaces editor to edit Twig files, load the site frontend, or log into the Craft CP, all from within a browser!
 
-The first time you start up your project in Codespaces, it'll take some time to set everything up. However, subsequent startups will be very quick.
-
-You can access your existing Codespaces here:
-
-https://github.com/codespaces
-
-Click on one to resume it. If you don't see a Terminal window, go to the hamburger  menu in the top-left, and click on **Terminal > New Terminal**
-
-You are limited to 15 active Codespaces on the free plan, but you can go in and delete any older Codespaces you're not using at any time.
-
-## Using your Craft CMS project in local dev
+## Using this Craft CMS project in local dev
 
 1. Have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed
 2. Clone your newly created repo down to your computer
@@ -53,71 +45,29 @@ Hit `Control-C` to terminate the project and spin down the containers
 
 The first time you start up your project, it'll take some time to set everything up. However, subsequent startups will be very quick.
 
+[Visit the news controller](http://localhost:8050/actions/site-module/news?q=matildas) to see the returned data!
+
 ## Available `make` commands
 
 This project uses `make` to execute various commands in the appropriate containers. Here's a list of available commands:
 
-* `make dev` - Start the dev server
-* `make composer xxx` - Execute a composer command in the PHP container
-* `make craft xxx` - Execute a `craft` CLI command in the PHP container
-* `make ssh` - Open up a shell in the PHP container
-* `make db-admin-reset` - Reset the admin (user with the `ID=1`) to the defaults in from the `.env` file; useful after importing a foreign database
-* `make db-export` - Clean the `db-seed/` directory and export the database to it
-* `make db-import` - Import the db from `db-seed/` directory into the mysql container
+-   `make dev` - Start the dev server
+-   `make composer xxx` - Execute a composer command in the PHP container
+-   `make craft xxx` - Execute a `craft` CLI command in the PHP container
+-   `make ssh` - Open up a shell in the PHP container
+-   `make db-admin-reset` - Reset the admin (user with the `ID=1`) to the defaults in from the `.env` file; useful after importing a foreign database
+-   `make db-export` - Clean the `db-seed/` directory and export the database to it
+-   `make db-import` - Import the db from `db-seed/` directory into the mysql container
 
 If the project is already running via `make dev` you can use a second terminal tab/window to execute additional commands.
 
-## Creating your Craft CMS project
-
-Develop the site as you normally would by editing templates, adding content, adding assets, etc.
-
-Commit your changes to the repository.
-
-To update the database dump in `db-seed/` directory, use the command:
-```
-make db-export
-```
-... and then commit the new database dump to your repository. Ensure there is no confidential data in the database dump before doing so.
-
-People wanting to use the project will simply need to `git clone` the repo down, and get up and running with `make dev`
-
-## Using Spin Up Craft for support
-
-If you're using Spin Up Craft to try to replicate an issue someone else is having:
-
-1. Clone a clean version of your repo down
-2. Copy their `composer.json` and their `composer.lock` files to overwrite the project's respective files
-3. Delete the repo's database dump from `db-seed/` and copy their database dump into it as an uncompressed `.sql` file
-
-Then start the project up with:
-```
-make dev
-```
-
-If you need to re-import their db at any time, you can use:
-```
-make db-import
-```
-
-If you don't have a login, or the client doesn't wish to share their password, you can then use:
-```
-make db-admin-reset
-```
-
-...which will reset the admin user (`ID=1`) to the defaults specified in the `.env` file
-
-Usually the `composer.json`, `composer.lock`, and database dump are all you need to replicate issues. But if additional config/template files are needed, obtain them as well.
-
-
 ## Random notes
 
-- The `.env` file is created by copying `example.env` file when you start the project up
-- The server will use the `INITIAL_SERVER_PORT` in the `.env` file for the initial port to start looking for unused ports from. It will increment it until it finds and unused port, and then use it
-- If instead you want to used a fixed port, you can explicitly set the `DEV_SERVER_PORT` in the `.env` file
-- The Docker containers will be named after the project directory, so give it a unique name for each project
+-   The `.env` file is created by copying `example.env` file when you start the project up
+-   The server will use the `INITIAL_SERVER_PORT` in the `.env` file for the initial port to start looking for unused ports from. It will increment it until it finds and unused port, and then use it
+-   If instead you want to used a fixed port, you can explicitly set the `DEV_SERVER_PORT` in the `.env` file
+-   The Docker containers will be named after the project directory, so give it a unique name for each project
 
-## To Do
+## Credits
 
-- Await orders from Ben & Ryan
-
-Brought to you by [nystudio107](https://nystudio107.com/)
+Forked from [Spin Up Craft](https://github.com/nystudio107/spin-up-craft) by [nystudio107](https://nystudio107.com/)
