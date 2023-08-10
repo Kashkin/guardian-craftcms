@@ -3,27 +3,29 @@
 This codebase is a demonstration of my PHP capabilities, specifically within the Craft CMS / Yii frameworks.
 
 I have focused on the back-end component of this project. My progress so far:
-✅ Create API proxy, specifically for The Guardian, but scaffolded for multiple providers
-✅ Normalise returned content into a consistent model
-✅ Apply data caching to improve performance of repeat requests
+
+-   [ ] Create API proxy, specifically for The Guardian, but scaffolded for multiple providers
+-   [x] Normalise returned content into a consistent model
+-   [x] Apply data caching to improve performance of repeat requests
 
 Next steps / considerations:
-⬜️ Under what circumstances (beyond expiry) should the cache be cleared (live blogs?)
-⬜️ Pagination? How does this work with multiple end points?
-⬜️ Storage of pinned articles: use session storage for guests, convert to user field?
-⬜️ Allow front-end registration / login / forgot password.
-⬜️ Do we want to store article metadata in the CMS? If so, we could use the [Wishlist plugin](https://verbb.io/craft-plugins/wishlist/features).
-⬜️ Are articles ever removed from an API? How does this affect pinned articles?
-⬜️ Do we ever need to return the full article and display it?
-⬜️ There are [so many news APIs](https://en.wikipedia.org/wiki/List_of_news_media_APIs)!
+
+-   [ ] Under what circumstances (beyond expiry) should the cache be cleared (live blogs?)
+-   [ ] Pagination? How does this work with multiple end points?
+-   [ ] Storage of pinned articles: use session storage for guests, convert to user field?
+-   [ ] Allow front-end registration / login / forgot password.
+-   [ ] Do we want to store article metadata in the CMS? If so, we could use the [Wishlist plugin](https://verbb.io/craft-plugins/wishlist/features).
+-   [ ] Are articles ever removed from an API? How does this affect pinned articles?
+-   [ ] Do we ever need to return the full article and display it?
+-   [ ] There are [so many news APIs](https://en.wikipedia.org/wiki/List_of_news_media_APIs)!
 
 This project provided the opportunity to dig into:
-🔌 Modules! They're [like plugins, but a bit different](https://verbb.io/blog/everything-you-need-to-know-about-modules)
-🪵 Logging! Now I know how to register my own log file, which is tidy.
-🌆 Models! Craft intends you to create models and records in tandem, but they're useful on their own.
-🧳 Caching! I'd used this before, but it's good to practice.
-🆎 Types! I'm learning TypeScript, and I have a better understanding of how to type my PHP.
 
+-   🔌 Modules! They're [like plugins, but a bit different](https://verbb.io/blog/everything-you-need-to-know-about-modules)
+-   🪵 Logging! Now I know how to register my own log file, which is tidy.
+-   🌆 Models! Craft intends you to create models and records in tandem, but they're useful on their own.
+-   🧳 Caching! I'd used this before, but it's good to practice.
+-   🆎 Types! I'm learning TypeScript, and I have a better understanding of how to type my PHP.
 
 ## Using this Craft CMS project in local dev
 
