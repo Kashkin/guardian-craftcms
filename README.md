@@ -1,26 +1,8 @@
-# Spin Up Craft
-
-Allows you to create your own self-contained Craft CMS project complete with a seeded database, template files, assets, and devops shrink-wrapped with Docker, which you can distribute to others or use yourself.
-
-Use it for:
-- Spinning up a Craft CMS site in a browser in Github Codespaces
-- Shipping a self-contained Craft CMS site to others
-- Providing working example code & projects to others
-- Spinning up a local Craft project using someone else's `composer.json` & database, for support
-
-**N.B.:** This is _not_ intended to be a fully functional local development environment for client sites (there is no `buildchain`, for example).
-
-## Making a new Craft CMS project
-
-This is a template repository. Click on **Use this template** on [github](https://github.com/nystudio107/spin-up-craft) and select **Create a new repository**.
-
-You will then be able to name the new repository, and a clone of this repo will be created there.
-
-The project you'll get is the default Craft starter you might create with `composer create-project craftcms/craft`, with the Spin Up Craft scaffolding around it.
-
-If you intend to use this as a [Template Repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository) (like Spin Up Craft is), you'll want to go to the repo **Settings** and check the **Template repository** checkbox.
-
-You can also consider [adding an **Open in Codespaces**](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/setting-up-your-repository/adding-a-codespaces-badge) button.
+# News
+- News Controller
+- Article Model
+- News Service
+	- Guardian Function
 
 ## Using your Craft CMS project in a browser via Github Codespaces
 

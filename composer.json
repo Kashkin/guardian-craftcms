@@ -1,6 +1,8 @@
 {
   "require": {
     "craftcms/cms": "^4.4.5",
+    "craftcms/generator": "^1.5",
+    "verbb/base": "^2.0",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
