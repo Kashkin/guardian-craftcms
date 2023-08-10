@@ -4,7 +4,7 @@ This codebase is a demonstration of my PHP capabilities, specifically within the
 
 I have focused on the back-end component of this project. My progress so far:
 
--   [ ] Create API proxy, specifically for The Guardian, but scaffolded for multiple providers
+-   [x] Create API proxy, specifically for The Guardian, but scaffolded for multiple providers
 -   [x] Normalise returned content into a consistent model
 -   [x] Apply data caching to improve performance of repeat requests
 
