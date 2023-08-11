@@ -22,14 +22,15 @@ class Article extends Model
     public string $id;
 
     /**
-     * @var string Liveblog or Article
+     * @var string Liveblog or Article (optional)
      */
-    public string $type;
+    public ?string $type;
 
     /**
      * @var string Section of the publication, e.g. News / Culture / Lifestyle
+     * (Optional)
      */
-    public string $section;
+    public ?string $section;
 
     /**
      * @var DateTime The date on which the article was created in
@@ -41,7 +42,7 @@ class Article extends Model
      * @var DateTime The date on which the article was last modified in
      * [ISO 8601 date format](http://schema.org/Date), e.g.: `2023-08-09T22:27:05Z`
      */
-    public DateTime $dateModified;
+    public ?DateTime $dateModified;
 
     /**
      * @var string Headline of the article

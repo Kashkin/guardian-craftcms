@@ -10,12 +10,14 @@ use craft\log\MonologTarget;
 use Monolog\Formatter\LineFormatter;
 use modules\sitemodule\models\Settings;
 use modules\sitemodule\services\NewsService;
+use modules\sitemodule\services\providers\GuardianService;
+use modules\sitemodule\services\providers\NewsApiService;
 
 class SiteModule extends Module
 {
     // Properties
     // =========================================================================
-    public array $providers = ['guardian'];
+    public array $providers = ['guardian', 'newsApi'];
 
     // Public Functions
     // =========================================================================
@@ -35,8 +37,11 @@ class SiteModule extends Module
         $this->_registerLogTarget();
 
         // Register components
+        // Component name must match string in $providers!
         $this->setComponents([
             'news' => NewsService::class,
+            'guardian' => GuardianService::class,
+            'newsApi' => NewsApiService::class,
         ]);
 
         // Defer most setup tasks until Craft is fully initialized
